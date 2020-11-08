@@ -18,37 +18,42 @@ namespace A5_SERVER_PROG {
     {
         static void Main(string[] args)
         {
-
             Server test = new Server();
 
-            // string hostName = Dns.GetHostName(); // Retrive the Name of HOST  
-            // Console.WriteLine(hostName);
-            // // Get the IP  
-            // string serverAd = Dns.GetHostEntry(hostName).AddressList[0].ToString();
-            // Console.WriteLine("My IP Address is :" + serverAd);
+            test.DoServer();
 
-            string hostname = System.Net.Dns.GetHostName();
-            Console.WriteLine("Computer name :" + hostname);
-            IPAddress[] addresses = Dns.GetHostAddresses(hostname);
-            Console.WriteLine($"GetHostAddresses({hostname}) returns:");
-            /*showing only the IPv4 address*/
-            foreach (IPAddress address in addresses)
-            {
-                if (address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
-                {
-                    Console.WriteLine(address);
+            //Server test = new Server();
+
+            //// string hostName = Dns.GetHostName(); // Retrive the Name of HOST  
+            //// Console.WriteLine(hostName);
+            //// // Get the IP  
+            //// string serverAd = Dns.GetHostEntry(hostName).AddressList[0].ToString();
+            //// Console.WriteLine("My IP Address is :" + serverAd);
+
+            //string hostname = System.Net.Dns.GetHostName();
+            //Console.WriteLine("Computer name :" + hostname);
+            //IPAddress[] addresses = Dns.GetHostAddresses(hostname);
+            //Console.WriteLine($"GetHostAddresses({hostname}) returns:");
+            ///*showing only the IPv4 address*/
+            //foreach (IPAddress address in addresses)
+            //{
+            //    if (address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+            //    {
+            //        Console.WriteLine(address);
 
 
-                }
-            }
-            //Console.ReadLine();
+            //    }
+            //}
+            ////Console.ReadLine();
 
 
-            // System.Console.WriteLine(serverAd.ToString());
-            //test.DoServer(addresses[0].ToString(), 13000);
-            test.DoServer("127.0.1.1", 13000);
+            //// System.Console.WriteLine(serverAd.ToString());
+            ////test.DoServer(addresses[0].ToString(), 13000);
+            //test.DoServer("127.0.1.1", 13000);
 
-            //test.DoServer("192.168.0.17", 13000);
+            ////test.DoServer("192.168.0.17", 13000);
+            ////luka ip
+            //test.DoServer("192.168.2.41", 13000);
 
 
 

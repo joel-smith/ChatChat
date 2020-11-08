@@ -64,6 +64,8 @@ namespace A5_CLIENT_LIB
 
                 NetworkStream stream = client.GetStream();
 
+                
+
                 // Send the message to the connected TcpServer. 
                 stream.Write(data, 0, data.Length);
 
