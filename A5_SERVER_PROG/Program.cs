@@ -32,23 +32,26 @@ namespace A5_SERVER_PROG {
             IPAddress[] addresses = Dns.GetHostAddresses(hostname);
             Console.WriteLine($"GetHostAddresses({hostname}) returns:");
             /*showing only the IPv4 address*/
-            foreach (IPAddress address in addresses)
-            {
-                if (address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
-                {
-                    Console.WriteLine(address);
+           // foreach (IPAddress address in addresses)
+           // {
+              //  Console.WriteLine(address);
+
+                //if (address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+                //{
+                //    Console.WriteLine(address);
 
 
-                }
-            }
+                //}
+          //  }
             //Console.ReadLine();
 
 
-            // System.Console.WriteLine(serverAd.ToString());
+           //  System.Console.WriteLine(addresses[1].ToString());
             //test.DoServer(addresses[0].ToString(), 13000);
             test.DoServer("127.0.1.1", 13000);
-
-            //test.DoServer("192.168.0.17", 13000);
+            //test.DoServer(addresses[1].ToString(), 13000);
+            
+           // test.DoServer("192.168.189.81", 13000);
 
 
 

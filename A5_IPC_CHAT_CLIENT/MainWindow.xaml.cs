@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using A5_SERVER_PROG;
 using A5_CLIENT_LIB;
+using System.ComponentModel;
 
 namespace A5_IPC_CHAT_CLIENT
 {
@@ -22,13 +23,33 @@ namespace A5_IPC_CHAT_CLIENT
     /// </summary>
     public partial class MainWindow : Window
     {
+        BackgroundWorker listenerWorker;
         public MainWindow()
         {
             InitializeComponent();
 
+            
+            //will need a background worker thread started here
+            listenerWorker = new BackgroundWorker();
+            listenerWorker.DoWork += new DoWorkEventHandler(listenerWorker_DoWork);
+            listenerWorker.RunWorkerAsync();
+            listenerWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(listenerWorker_RunWorkerCompleted);
+        }
+
+        //to pull messages
+        void listenerWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            //server listening stuff here
             //to be used for getting messages
             Server receiveServer = new Server();
-            //will need a background worker thread started here
+
+            receiveServer.DoServer("127.0.0.1", 13000);
+            Output.AppendText(receiveServer.inMessage); //put the message on new line
+        }
+
+        void listenerWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            //
         }
 
         //sends contents of textbox somewhere

@@ -7,6 +7,8 @@ using System.Threading;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
+using System.Runtime.Remoting.Messaging;
+using System.Runtime.CompilerServices;
 
 namespace A5_SERVER_PROG
 {
@@ -14,7 +16,7 @@ namespace A5_SERVER_PROG
     {
         //****************************************************************
         string outMessage; //to be NULL when nothing happening, and if has something, send it
-        string inMessage;
+        public string inMessage;
 
         //keys for all our clients, to be referenced in A5_IPC_CLIENT
         List<string> clientIDList = new List<string>();
@@ -73,7 +75,8 @@ namespace A5_SERVER_PROG
             Console.Read();
         }
 
-        public static void Worker(Object o)
+        //remove static to store message??
+        public void Worker(Object o)
         {
             TcpClient client = (TcpClient)o;
             // Buffer for reading data
@@ -98,7 +101,7 @@ namespace A5_SERVER_PROG
                 // replace this to make new data from our protocols
                 // 
                 data = data.ToUpper();
-
+                this.inMessage = data;
 
                 byte[] msg = System.Text.Encoding.ASCII.GetBytes(data);
 
