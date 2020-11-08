@@ -17,17 +17,21 @@ namespace A5_CLIENT_LIB
 
         //Method: DoClient
         //Description: basic test functionality for client
-        public void SendMessage(string serverAddress, Int32 serverPort, string message)
+        public string SendMessage(string serverAddress, Int32 serverPort, string message)
         {
             //Boolean RunIt = true;
             //while (RunIt)
             //{
             //     Console.WriteLine("Please Enter a message to send, or a blank line to end:");
             //    String message = Console.ReadLine();
+            string messageReceived;
             if (message != "")
             {
-                ConnectClient(serverAddress, 13000, message);
+                messageReceived = ConnectClient(serverAddress, 13000, message);
+                return messageReceived;
+
             }
+            return "";
             //else
             //{
             //    RunIt = false;
@@ -40,8 +44,9 @@ namespace A5_CLIENT_LIB
         // The following code was extracted from the MSDN site:
         // https://msdn.microsoft.com/en-us/library/system.net.sockets.tcpclient(v=vs.110).aspx
         //
-        static void ConnectClient(String server, Int32 serverPort, String message)
+        static string ConnectClient(String server, Int32 serverPort, String message)
         {
+            string res;
             try
             {
                 // Create a TcpClient.
@@ -80,6 +85,7 @@ namespace A5_CLIENT_LIB
                 // Close everything.
                 stream.Close();
                 client.Close();
+                return res = responseData;
             }
             catch (ArgumentNullException e)
             {
@@ -89,7 +95,7 @@ namespace A5_CLIENT_LIB
             {
                 Console.WriteLine("SocketException: {0}", e);
             }
-
+            return res = "";
         }
     }
 

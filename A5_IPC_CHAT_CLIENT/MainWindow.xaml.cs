@@ -36,12 +36,13 @@ namespace A5_IPC_CHAT_CLIENT
             string messageToSend = Input.Text;
             Client msgClient = new Client();
             string serverIP = IP_Field.Text;
-
+            string messageReceived;
             //add check for server, maybe an ACK/NACK?
 
-            msgClient.SendMessage(serverIP, 13000, messageToSend);
-
+            messageReceived = msgClient.SendMessage(serverIP, 13000, messageToSend);
+            Input.Text = String.Empty;
             //call to send here
+            Output.AppendText("\n" + messageReceived); //put the message on new line
         }
 
         //clears textbox
