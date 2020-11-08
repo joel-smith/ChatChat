@@ -28,6 +28,7 @@ namespace A5_IPC_CHAT_CLIENT
 
             //to be used for getting messages
             Server receiveServer = new Server();
+            //will need a background worker thread started here
         }
 
         //sends contents of textbox somewhere
@@ -42,7 +43,16 @@ namespace A5_IPC_CHAT_CLIENT
             messageReceived = msgClient.SendMessage(serverIP, 13000, messageToSend);
             Input.Text = String.Empty;
             //call to send here
-            Output.AppendText("\n" + messageReceived); //put the message on new line
+
+            if (Output.Text == "")
+            {
+                Output.AppendText(messageReceived); //put the message on new line
+            } else
+            {
+                Output.AppendText("\n" + messageReceived); //put the message on new line
+            }
+
+            
         }
 
         //clears textbox
