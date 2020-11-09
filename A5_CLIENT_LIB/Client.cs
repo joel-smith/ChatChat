@@ -39,6 +39,7 @@ namespace A5_CLIENT_LIB
             // }
         }
 
+        
 
         //
         // The following code was extracted from the MSDN site:
@@ -63,8 +64,6 @@ namespace A5_CLIENT_LIB
                 //  Stream stream = client.GetStream();
 
                 NetworkStream stream = client.GetStream();
-
-                
 
                 // Send the message to the connected TcpServer. 
                 stream.Write(data, 0, data.Length);
