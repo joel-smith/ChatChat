@@ -326,6 +326,8 @@
                      Background="White"
                      Height="30"
                      Style="{DynamicResource IPInputStyle}"  
+                     GotFocus="Client_IP_OnGotFocus"
+                     
                      />
             
             <!--Textbox for entering the server ip address-->

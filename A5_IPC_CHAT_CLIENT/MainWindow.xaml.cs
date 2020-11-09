@@ -155,5 +155,10 @@ namespace A5_IPC_CHAT_CLIENT
         {
             client.Close();
         }
+
+        private void Client_IP_OnGotFocus(object sender, RoutedEventArgs e)
+        {
+            Client_IP.Text = "";
+        }
     }
 }
