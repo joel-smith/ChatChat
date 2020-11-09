@@ -1,13 +1,13 @@
 ﻿<!--
-    FILE                   : MainChatWindow.xaml
-    PROJECT                : Assginment 5  PROG2121 
+    FILE                   : ChatMainWindow.xaml
+    PROJECT                : Assignment 5  PROG2121 
     PROGRAMMER             : Joel Smith
                              Luka Horiuchi
     LAST VERSION           : 2020-11-09
     DESCRIPTION            : This file contains the layout settings and attributes for the user 
                              interface of the chat window.
 -->
-<Window x:Class="A5_IPC_CHAT_CLIENT.MainWindow"
+<Window x:Class="A5_IPC_CHAT_CLIENT.ChatMainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"

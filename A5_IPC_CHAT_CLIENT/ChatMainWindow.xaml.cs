@@ -1,4 +1,13 @@
-﻿using System;
+﻿/*
+*	NAME	      : MainChatWindow.xaml.cs
+*	PROJECT		  : Assginment 5  PROG2121 
+*	PROGRAMMER	  : Joel Smith
+*	                Luka Horiuchi
+*	LAST VERSION  : 2020-11-09
+*	PURPOSE       : This file includes the class and functions for the events occuring in the chat window
+*/
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,7 +33,7 @@ namespace A5_IPC_CHAT_CLIENT
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class ChatMainWindow : Window
     {
         TcpClient client = new TcpClient();
        // TcpClient client = new TcpClient();
@@ -33,7 +42,7 @@ namespace A5_IPC_CHAT_CLIENT
 
         string sessionUser = "Yoel";
 
-        public MainWindow()
+        public ChatMainWindow()
         {
             InitializeComponent();
         }
@@ -56,7 +65,7 @@ namespace A5_IPC_CHAT_CLIENT
                     string message = Encoding.ASCII.GetString(buffer, 0, bytes);
 
                     DisplayMessage(message);
-                    }
+                    } 
                     catch (Exception ex)
                     {
                         Console.WriteLine(ex.ToString());

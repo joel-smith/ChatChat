@@ -74,6 +74,7 @@ namespace A5_SERVER_PROG
             {
                 // Stop listening for new clients.
                 server.Stop();
+                //Broadcast("quitting mfs");
                 Console.ReadLine();
             }
 
