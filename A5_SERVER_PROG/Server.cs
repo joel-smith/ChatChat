@@ -128,27 +128,28 @@ namespace A5_SERVER_PROG
         public void Broadcast(string message)
         {
             //foreach (TcpClient clients in clientIDList)
-            for (int i =0; i < clientIDList.Count; i++)
+            for (int i = 0; i < clientIDList.Count; i++)
             {
                 //NetworkStream clientStream = clients.GetStream();
                 try { 
-                NetworkStream clientStream = clientIDList[i].GetStream();
-                //string test = "Test Message";
+                    NetworkStream clientStream = clientIDList[i].GetStream();
+                    //string test = "Test Message";
 
-                byte[] msg = null;
+                    byte[] msg = null;
 
-                msg = System.Text.Encoding.ASCII.GetBytes(message);
+                    msg = System.Text.Encoding.ASCII.GetBytes(message);
 
-                clientStream.Write(msg, 0, msg.Length);
+                    clientStream.Write(msg, 0, msg.Length);
 
-                Console.WriteLine("Sent: {0}", message);
+                    Console.WriteLine("Sent: {0}", message);
 
-                clientStream.Flush();
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.ToString());
-                }
+                    clientStream.Flush();
+                    }
+                    catch (ObjectDisposedException)
+                    {
+                        Console.WriteLine("Oops, that client is gone, deleting entry");
+                        clientIDList.RemoveRange(i, 1); //delete that entry
+                    }  
             }
         }
     }
