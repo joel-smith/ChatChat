@@ -1,4 +1,12 @@
-﻿using System;
+﻿/*
+*	NAME	      : Server.cs
+*	PROJECT		  : Assginemnt 5  PROG2121 
+*	PROGRAMMER	  : Joel Smith
+*	LAST VERSION  : 2020-11-09
+*	PURPOSE       : This file includes the functions for the server.
+*/
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -125,6 +133,13 @@ namespace A5_SERVER_PROG
             client.Close();
         }
 
+
+        /* -------------------------------------------------------------------------------------
+        *	Name	: Broadcast
+        *	Purpose : This function will send back the message recieved from clients to each clients.
+        *	Inputs	: string message : message
+        *	Returns	: None
+        *------------------------------------------------------------------------------------ */
         public void Broadcast(string message)
         {
             //foreach (TcpClient clients in clientIDList)

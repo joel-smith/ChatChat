@@ -1,4 +1,12 @@
-﻿using System;
+﻿/*
+*	NAME	      : ServerMain.cs
+*	PROJECT		  : Assginemnt 5  PROG2121 
+*	PROGRAMMER	  : Joel Smith
+*	LAST VERSION  : 2020-11-09
+*	PURPOSE       : This file includes the main start of the server.
+*/
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,7 +22,7 @@ using System.Net.Sockets;
 //
 //https://docs.microsoft.com/en-us/dotnet/api/system.net.sockets.tcpclient?view=netcore-3.1
 namespace A5_SERVER_PROG { 
-    class Program
+    class ServerMain
     {
         static void Main(string[] args)
         {
@@ -53,9 +61,6 @@ namespace A5_SERVER_PROG {
             //test.DoServer(addresses[1].ToString(), 13000);
 
             // test.DoServer("192.168.189.81", 13000);
-
-
-
 
             Console.ReadLine();
            
