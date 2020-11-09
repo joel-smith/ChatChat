@@ -111,7 +111,7 @@ namespace A5_SERVER_PROG
                 // 
                 //data = data.ToUpper();
 
-                //Broadcast(data);
+                Broadcast(data);
 
                // byte[] msg = System.Text.Encoding.ASCII.GetBytes(data);
 
@@ -131,15 +131,15 @@ namespace A5_SERVER_PROG
             {
                 NetworkStream clientStream = clients.GetStream();
 
-                string test = "Test Message";
+                //string test = "Test Message";
 
                 byte[] msg = null;
 
-                msg = System.Text.Encoding.ASCII.GetBytes(test);
+                msg = System.Text.Encoding.ASCII.GetBytes(message);
 
                 clientStream.Write(msg, 0, msg.Length);
 
-                Console.WriteLine("Sent: {0}", msg);
+                Console.WriteLine("Sent: {0}", message);
 
                 clientStream.Flush();
 

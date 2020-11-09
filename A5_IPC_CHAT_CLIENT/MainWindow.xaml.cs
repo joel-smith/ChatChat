@@ -25,6 +25,8 @@ namespace A5_IPC_CHAT_CLIENT
     public partial class MainWindow : Window
     {
         BackgroundWorker listenerWorker;
+
+        TcpClient client = new TcpClient();
         public MainWindow()
         {
             InitializeComponent();
@@ -68,7 +70,15 @@ namespace A5_IPC_CHAT_CLIENT
             Input.Text = String.Empty;
             //call to send here
 
-            //NetworkStream sendStream = new NetworkStream();
+            
+            NetworkStream sendStream = client.GetStream();
+
+            Byte[] data = System.Text.Encoding.ASCII.GetBytes(messageToSend);
+
+            // Send the message to the connected TcpServer. 
+            sendStream.Write(data, 0, data.Length);
+
+
 
             //if (Output.Text == "")
             //{
@@ -78,7 +88,7 @@ namespace A5_IPC_CHAT_CLIENT
             //    Output.AppendText("\n" + messageReceived); //put the message on new line
             //}
 
-            
+
         }
 
         //clears textbox
@@ -95,7 +105,7 @@ namespace A5_IPC_CHAT_CLIENT
 
             //Client userClient = new Client();
 
-            TcpClient client = new TcpClient();
+ 
 
             client.Connect(serverIP, port);
             
