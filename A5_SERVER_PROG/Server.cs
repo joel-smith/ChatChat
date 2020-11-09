@@ -1,4 +1,14 @@
-﻿using System;
+﻿/*
+*	NAME	      : Server.cs
+*	PROJECT		  : Assginemnt 5  PROG2121 
+*	PROGRAMMER	  : Joel Smith
+*	                Luka Horiuchi
+*	LAST VERSION  : 2020-11-09
+*	PURPOSE       : This file includes the functions for the server to start, listen for connection,
+*	                recieve/send messages out to client.
+*/
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,10 +22,16 @@ using System.Runtime.CompilerServices;
 
 namespace A5_SERVER_PROG
 {
+
+    /*
+    *	NAME	      : Server
+    *	PROPOSE		  : ChatMainWindow class has been created for the interaction logic of ChatMainWindow.xaml.
+    *	                It has function that handles the event.    
+    */
     public class Server
     {
         //****************************************************************
-        //string outMessage; //to be NULL when nothing happening, and if has something, send it
+        
         public string inMessage;
 
         //keys for all our clients, to be referenced in A5_IPC_CLIENT
@@ -23,12 +39,16 @@ namespace A5_SERVER_PROG
 
 
 
-        //method: doServer
-        //description: test connection, returns string back capitalized to uppercase, and thats it
-        //public void DoServer(string serverAddress, Int32 serverPort)
+        /* -------------------------------------------------------------------------------------
+        *	Name	: DoServer
+        *	Purpose : This function initializes the connection, listen to the client connection
+        *	Inputs	: String serverAddress : IP address of the server
+        *	          Int 32               : server port number
+        *	Returns	: None
+        *------------------------------------------------------------------------------------ */
         public void DoServer(string serverAddress, Int32 serverPort)
         {
-            Console.WriteLine("server 0.1");
+            Console.WriteLine("ChatChat - server 1.0");
             TcpListener server = null;
             try
             {
@@ -36,7 +56,6 @@ namespace A5_SERVER_PROG
                 Int32 port = serverPort;
                 IPAddress localAddr = IPAddress.Parse(serverAddress);
 
-                // TcpListener server = new TcpListener(port);
                 server = new TcpListener(localAddr, port);
 
                 // Start listening for client requests.
@@ -58,6 +77,8 @@ namespace A5_SERVER_PROG
 
 
                     Console.WriteLine("Connected!");
+
+                    //setup and start the thread for recieving the message from the client
                     ParameterizedThreadStart ts = new ParameterizedThreadStart(Worker);
                     Thread clientThread = new Thread(ts);
                     clientThread.Start(client);
@@ -74,7 +95,6 @@ namespace A5_SERVER_PROG
             {
                 // Stop listening for new clients.
                 server.Stop();
-                //Broadcast("quitting mfs");
                 Console.ReadLine();
             }
 
@@ -83,7 +103,13 @@ namespace A5_SERVER_PROG
             Console.Read();
         }
 
-        //remove static to store message??
+        /* -------------------------------------------------------------------------------------
+        *	Name	: Worker
+        *	Purpose : This function wil recieve all data sent by the client and response every
+        *	          message back to the client. It will be used through thread.
+        *	Inputs	: Obejct o : client
+        *	Returns	: None
+        *------------------------------------------------------------------------------------ */
         public void Worker(Object o)
         {
             TcpClient client = (TcpClient)o;
@@ -98,43 +124,46 @@ namespace A5_SERVER_PROG
             
             int i;
 
-            
+
 
             // Loop to receive all the data sent by the client.
-            while ((i = stream.Read(bytes, 0, bytes.Length)) != 0)
+            while (client.Connected)
             {
-                // Translate data bytes to a ASCII string.
-                data = System.Text.Encoding.ASCII.GetString(bytes, 0, i);
-                Console.WriteLine("Received: {0}", data);
+                try
+                {
+                    if ((i = stream.Read(bytes, 0, bytes.Length)) != 0)
+                    {
+                        // Translate data bytes to a ASCII string.
+                        data = System.Text.Encoding.ASCII.GetString(bytes, 0, i);
+                        Console.WriteLine("Received: {0}", data);
 
-                // Process the data sent by the client.
-                // replace this to make new data from our protocols
-                // 
-                //data = data.ToUpper();
-
-                Broadcast(data);
-
-               // byte[] msg = System.Text.Encoding.ASCII.GetBytes(data);
-
-                // Send back a response.
-               // stream.Write(msg, 0, msg.Length);
-
-                
+                        Broadcast(data);
+                    }
+                }
+                catch (IOException)
+                {
+                    Console.WriteLine("Cannot read the message from the client....");
+                }
             }
 
             // Shutdown and end connection
             client.Close();
         }
 
+        /* -------------------------------------------------------------------------------------
+        *	Name	: Broadcast
+        *	Purpose : This function will send back the message recieved from clients to each clients.
+        *	          If the client is gone, it will prompt that to all other users too.
+        *	          Used inside the Worker() function.
+        *	Inputs	: string message : message
+        *	Returns	: None
+        *------------------------------------------------------------------------------------ */
         public void Broadcast(string message)
         {
-            //foreach (TcpClient clients in clientIDList)
             for (int i = 0; i < clientIDList.Count; i++)
             {
-                //NetworkStream clientStream = clients.GetStream();
                 try { 
                     NetworkStream clientStream = clientIDList[i].GetStream();
-                    //string test = "Test Message";
 
                     byte[] msg = null;
 

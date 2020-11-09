@@ -68,7 +68,7 @@ namespace A5_IPC_CHAT_CLIENT
 
 
             //add try and catch
-            while (true)
+            while (client.Connected)
             {
                 if (sendStream != null)
                 {
@@ -86,6 +86,7 @@ namespace A5_IPC_CHAT_CLIENT
                 } 
 
             }
+            DisplayMessage("Server has been disconnected");
         }
 
         /* -------------------------------------------------------------------------------------
@@ -172,6 +173,11 @@ namespace A5_IPC_CHAT_CLIENT
 
                 //set the username here
                 Set_userName();
+
+                if (Output.Text != "")
+                {
+                    Output.AppendText("\n");
+                }
 
                 // Translate the passed message into ASCII and store it as a Byte array.
                 Byte[] data = System.Text.Encoding.ASCII.GetBytes("New User has been entered: " + sessionUser);
