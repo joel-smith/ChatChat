@@ -4,8 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="MainWindow" Height="630" Width="1160"
+        Title="MainWindow" Height="500" Width="800"
         Closing="Window_Closing">
+    <!--resources are used for styling the components of this window-->
     <Window.Resources>
         <Style x:Key="FocusVisual">
             <Setter Property="Control.Template">
@@ -263,18 +264,23 @@
             </Style.Triggers>
         </Style>
     </Window.Resources>
+    <!--setting up the background color of the window-->
     <Grid Background="#222222">
-        <Grid Grid.Column="0" Margin="0,0,0.6,0">
+        
+        <!--setting up the grid inside the window-->
+        <Grid Grid.Column="0">
             <Grid.ColumnDefinitions>
+                
                 <ColumnDefinition Width="0.1*"/>
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="0.1*"/>
-
+            
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
+                <RowDefinition Height="0.2*"/>
                 <RowDefinition Height="0.5*"/>
                 <RowDefinition Height="0.5*"/>
                 <RowDefinition Height="0.25*"/>
@@ -285,23 +291,25 @@
                 <RowDefinition Height="0.3*"/>
                 <RowDefinition Height="0.3*"/>
                 <RowDefinition Height="0.3*"/>
-                <RowDefinition Height="0.5*"/>
-
+                <RowDefinition Height="0.2*"/>
             </Grid.RowDefinitions>
+            
+            <!--Textblock for title-->
             <TextBlock Grid.Column="1"
-                       Grid.Row="0"
+                       Grid.Row="1"
                        Grid.ColumnSpan="3"
                        Name="title" 
                        Foreground="#999999"
                        FontFamily="Helevetica"
                        FontSize="26pt" 
                        FontWeight="Bold"
-                       TextAlignment="Center">
+                       TextAlignment="Left">
                 Chat Client v1.0.0
             </TextBlock>
-
+            
+            <!--Textbox for entering the server ip address-->
             <TextBox Grid.Column="3"
-                     Grid.Row="1" 
+                     Grid.Row="2" 
                      Name="IP_Field" 
                      Text="127.0.1.1" 
                      TextAlignment="Center"
@@ -311,58 +319,59 @@
                      Height="30"
                      Style="{DynamicResource IPInputStyle}"  
                      />
-
-
-
+            
+            <!--Connect to the server button-->
             <Button Grid.Column="4" 
-                    Grid.Row="1" 
+                    Grid.Row="2" 
                     Name="Connectiion"
                     Content="Connect"
                     Click="ConnectButton_Click" 
-                    Width="130"
+                    Width="140"
                     Background="#FF3D8BCD" 
                     Foreground="White"
                     FontSize="16" 
                     Style="{DynamicResource ConenctButton}"
                     />
 
-            <!--output textbox-->
+            <!--Textbox to prompt the messages-->
             <TextBox Grid.Column="1"
-                     Grid.Row="3"
+                     Grid.Row="4"
                      Grid.ColumnSpan="4"
                      Name="Output"                   
                      IsReadOnly="True"
                      FontSize="14px"
                      VerticalScrollBarVisibility="Visible"
                      Style="{DynamicResource TextBoxRecieved}"/>
-
+            
+            <!--Input textbox settings-->
             <TextBox Grid.Column="1"
-                     Grid.Row="5"
+                     Grid.Row="6"
                      Grid.RowSpan="5"
                      Grid.ColumnSpan="3"
                      Name="Input" 
                      FontSize="14px"
                      Style="{DynamicResource TextBoxInput}"/>
-
+            
+            <!--Sending button settings-->
             <Button Grid.Column="4" 
-                    Grid.Row="5"
+                    Grid.Row="6"
                     Grid.RowSpan="2"
                     Name="Send"
                     Content="Send"
                     Click="Send_Click"
-                    Width="130"
+                    Width="140"
                     Background="#FF3D8BCD" 
                     Foreground="White"
                     FontSize="16" 
                     Style="{DynamicResource RoundSendButton}"  />
 
-
+            <!--Input textbox Clear Settings-->
             <Button Grid.Column="4" 
-                    Grid.Row="8" 
+                    Grid.Row="9" 
                     Grid.RowSpan="2"
                     Name="Clear"
                     Content="Clear"
-                    Width="130"
+                    Width="140"
                     Click="Clear_Click" 
                     Background="#2A2A2A" 
                     Foreground="White"
@@ -370,7 +379,5 @@
                     Style="{DynamicResource ClearButton}" />
 
         </Grid>
-
-
     </Grid>
 </Window>
