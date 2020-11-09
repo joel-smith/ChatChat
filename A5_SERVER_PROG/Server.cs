@@ -1,4 +1,13 @@
-﻿using System;
+﻿/*
+*	NAME	      : Server.cs
+*	PROJECT		  : Assginemnt 5  PROG2121 
+*	PROGRAMMER	  : Joel Smith
+*	                Luka Horiuchi
+*	LAST VERSION  : 2020-11-09
+*	PURPOSE       : This file includes the functions for the server to start, listen for connection,
+*	                recieve/send messages out to client.
+*/
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,23 +16,32 @@ using System.Threading;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
+using System.Runtime.Remoting.Messaging;
+using System.Runtime.CompilerServices;
 
 namespace A5_SERVER_PROG
 {
+    /*
+    *	NAME	      : Server
+    *	PROPOSE		  : ChatMainWindow class has been created for the interaction logic of ChatMainWindow.xaml.
+    *	                It has function that handles the event.    
+    */
     public class Server
     {
         //****************************************************************
-        string outMessage; //to be NULL when nothing happening, and if has something, send it
-        string inMessage;
+        public string inMessage;
 
         //keys for all our clients, to be referenced in A5_IPC_CLIENT
-        List<string> clientIDList = new List<string>();
+        List<TcpClient> clientIDList = new List<TcpClient>();
 
 
-
-        //method: doServer
-        //description: test connection, returns string back capitalized to uppercase, and thats it
-        //public void DoServer(string serverAddress, Int32 serverPort)
+        /* -------------------------------------------------------------------------------------
+        *	Name	: DoServer
+        *	Purpose : This function initializes the connection, listen to the client connection
+        *	Inputs	: String serverAddress : IP address of the server
+        *	          Int 32               : server port number
+        *	Returns	: None
+        *------------------------------------------------------------------------------------ */
         public void DoServer(string serverAddress, Int32 serverPort)
         {
             Console.WriteLine("server 0.1");
@@ -40,32 +58,38 @@ namespace A5_SERVER_PROG
                 // Start listening for client requests.
                 server.Start();
 
-
                 // Enter the listening loop.
                 while (true)
                 {
                     Console.Write("Waiting for a connection... ");
 
                     // Perform a blocking call to accept requests.
-                    // You could also user server.AcceptSocket() here.
                     //new client information, accepted here
                     TcpClient client = server.AcceptTcpClient();
+                    
+                    //add client to list
+                    clientIDList.Add(client);
+
+
                     Console.WriteLine("Connected!");
+                    
+                    //setup and start the thread for recieving the message from the client
                     ParameterizedThreadStart ts = new ParameterizedThreadStart(Worker);
                     Thread clientThread = new Thread(ts);
                     clientThread.Start(client);
-
 
                 }
             }
             catch (SocketException e)
             {
                 Console.WriteLine("SocketException: {0}", e);
+                Console.ReadLine();
             }
             finally
             {
                 // Stop listening for new clients.
                 server.Stop();
+                Console.ReadLine();
             }
 
 
@@ -73,7 +97,14 @@ namespace A5_SERVER_PROG
             Console.Read();
         }
 
-        public static void Worker(Object o)
+        /* -------------------------------------------------------------------------------------
+        *	Name	: Worker
+        *	Purpose : This function wil recieve all data sent by the client and response every
+        *	          message back to the client. It will be used through thread.
+        *	Inputs	: Obejct o : client
+        *	Returns	: None
+        *------------------------------------------------------------------------------------ */
+        public void Worker(Object o)
         {
             TcpClient client = (TcpClient)o;
             // Buffer for reading data
@@ -84,32 +115,68 @@ namespace A5_SERVER_PROG
 
             // Get a stream object for reading and writing
             NetworkStream stream = client.GetStream();
-
+            
             int i;
 
             // Loop to receive all the data sent by the client.
-            while ((i = stream.Read(bytes, 0, bytes.Length)) != 0)
+            while (client.Connected)
             {
-                // Translate data bytes to a ASCII string.
-                data = System.Text.Encoding.ASCII.GetString(bytes, 0, i);
-                Console.WriteLine("Received: {0}", data);
+                try
+                {
+                    if ((i = stream.Read(bytes, 0, bytes.Length)) != 0)
+                    {
+                        // Translate data bytes to a ASCII string.
+                        data = System.Text.Encoding.ASCII.GetString(bytes, 0, i);
+                        Console.WriteLine("Received: {0}", data);
 
-                // Process the data sent by the client.
-                // replace this to make new data from our protocols
-                // 
-                data = data.ToUpper();
-
-
-                byte[] msg = System.Text.Encoding.ASCII.GetBytes(data);
-
-                // Send back a response.
-                stream.Write(msg, 0, msg.Length);
-
-                Console.WriteLine("Sent: {0}", data);
+                        Broadcast(data);
+                    }
+                }
+                catch (IOException)
+                {
+                    Console.WriteLine("There is cannot read the message from the client....");
+                }
             }
-
             // Shutdown and end connection
             client.Close();
+        }
+
+
+        /* -------------------------------------------------------------------------------------
+        *	Name	: Broadcast
+        *	Purpose : This function will send back the message recieved from clients to each clients.
+        *	          If the client is gone, it will prompt that to all other users too.
+        *	          Used inside the Worker() function.
+        *	Inputs	: string message : message
+        *	Returns	: None
+        *------------------------------------------------------------------------------------ */
+        public void Broadcast(string message)
+        {
+            //foreach (TcpClient clients in clientIDList)
+            for (int i = 0; i < clientIDList.Count; i++)
+            {
+                //NetworkStream clientStream = clients.GetStream();
+                try { 
+                    NetworkStream clientStream = clientIDList[i].GetStream();
+                    //string test = "Test Message";
+
+                    byte[] msg = null;
+
+                    msg = System.Text.Encoding.ASCII.GetBytes(message);
+
+                    clientStream.Write(msg, 0, msg.Length);
+
+                    Console.WriteLine("Sent: {0}", message);
+
+                    clientStream.Flush();
+                    }
+                    catch (ObjectDisposedException)
+                    {
+                        Console.WriteLine("Oops, that client is gone, deleting entry");
+                        clientIDList.RemoveRange(i, 1); //delete that entry
+                        Broadcast("SYSTEM: Offline User Removed from Broadcast"); //notify current users, that user has left
+                    }  
+            }
         }
     }
 }
