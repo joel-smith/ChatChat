@@ -13,7 +13,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using A5_SERVER_PROG;
-using A5_CLIENT_LIB;
 using System.ComponentModel;
 using System.Net.Sockets;
 using System.Threading;
@@ -26,9 +25,6 @@ namespace A5_IPC_CHAT_CLIENT
     /// </summary>
     public partial class MainWindow : Window
     {
-        BackgroundWorker listenerWorker;
-        string newMessage;
-
 
         TcpClient client = new TcpClient();
        
@@ -38,17 +34,6 @@ namespace A5_IPC_CHAT_CLIENT
         public MainWindow()
         {
             InitializeComponent();
-            //this.Dispatcher.BeginInvoke((Action)(() =>
-            //{
-            //    GetMessages();
-            //}));
-
-            //will need a background worker thread started here
-           // listenerWorker = new BackgroundWorker();
-           // listenerWorker.DoWork += new DoWorkEventHandler(listenerWorker_DoWork);
-           // //listenerWorker.RunWorkerAsync();
-           //// listenerWorker.ProgressChanged += listenerWorker_ProgressChanged;
-           // listenerWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(listenerWorker_RunWorkerCompleted);
         }
 
 
@@ -68,7 +53,7 @@ namespace A5_IPC_CHAT_CLIENT
                 string message = Encoding.ASCII.GetString(buffer, 0, bytes);
 
                     DisplayMessage(message);
-                }
+                } 
             }
         }
 
@@ -80,65 +65,11 @@ namespace A5_IPC_CHAT_CLIENT
              }));
         }
 
-        ////to pull messages
-        //void listenerWorker_DoWork(object sender, DoWorkEventArgs e)
-        //{
-
-        //    if (sendStream != null)
-        //    {
-        //       NetworkStream sendStream = client.GetStream();
-        //        int i;
-        //    byte[] buffer = new byte[1024];
-        //        int bytes = sendStream.Read(buffer, 0, buffer.Length);
-        //        //string tmpString = Encoding.ASCII.GetString(buffer, 0, bytes);
-        //        // Loop to receive all the data sent by the client.
-        //        while ((i = sendStream.Read(buffer, 0, buffer.Length)) != 0)
-        //        {
-        //            // Translate data bytes to a ASCII string.
-        //            string data = System.Text.Encoding.ASCII.GetString(buffer, 0, i);
-        //            //Console.WriteLine("Received: {0}", data);
-
-        //            newMessage = data;
-
-        //        }
-        //        //this.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (ThreadStart)delegate () { Output.AppendText(tmpString + Environment.NewLine); });
-        //        //Thread.Sleep(TimeSpan.FromSeconds(1));
-        //    }
-
-
-        //        //server listening stuff here
-        //        //to be used for getting messages
-        //        //Server receiveServer = new Server();
-        //        // receiveServer.DoServer("127.0.0.1", 13000);
-        //        // this.Dispatcher
-        //        // Output.AppendText(receiveServer.inMessage); //put the message on new line
-        //}
-
-        ////void listenerWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        ////{
-
-        ////}
-
-        //void listenerWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        //{
-        //    Output.AppendText(newMessage + Environment.NewLine);
-        //}
-
-
-
 
         private void Send_Click(object sender, RoutedEventArgs e)
         {
             string messageToSend = Input.Text;
-            //Client msgClient = new Client();
-            //string serverIP = IP_Field.Text;
-            //string messageReceived;
-            //add check for server, maybe an ACK/NACK?
-
-            //messageReceived = msgClient.SendMessage(serverIP, 13000, messageToSend);
             Input.Text = String.Empty;
-            //call to send here
-
             
             NetworkStream sendStream = client.GetStream();
 
@@ -164,7 +95,6 @@ namespace A5_IPC_CHAT_CLIENT
             //Client userClient = new Client();
 
  
-
             client.Connect(serverIP, port);
             
             // Translate the passed message into ASCII and store it as a Byte array.
