@@ -32,82 +32,33 @@ namespace A5_SERVER_PROG {
             IPAddress[] addresses = Dns.GetHostAddresses(hostname);
             Console.WriteLine($"GetHostAddresses({hostname}) returns:");
             /*showing only the IPv4 address*/
-           // foreach (IPAddress address in addresses)
-           // {
-              //  Console.WriteLine(address);
+            foreach (IPAddress address in addresses)
+            {
+                Console.WriteLine(address);
 
-                //if (address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
-                //{
-                //    Console.WriteLine(address);
+                if (address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+                {
+                    Console.WriteLine(address);
 
 
-                //}
-          //  }
-            //Console.ReadLine();
+                }
+            }
+            Console.WriteLine("input server IP Address");
+            string inputIP = Console.ReadLine();
 
 
            //  System.Console.WriteLine(addresses[1].ToString());
             //test.DoServer(addresses[0].ToString(), 13000);
-            test.DoServer("127.0.1.1", 13000);
+            test.DoServer(inputIP, 13000);
             //test.DoServer(addresses[1].ToString(), 13000);
-            
-           // test.DoServer("192.168.189.81", 13000);
+
+            // test.DoServer("192.168.189.81", 13000);
 
 
 
 
-
-            ////make this into a multithreaded program
-            //TcpListener server = null;
-            ////always use try
-            //try
-            //{
-            //    //assign each port to a chat room?
-            //    Int32 port = 13000;
-            //    //eventually add way to change/update this
-            //    IPAddress localAddr = IPAddress.Parse("127.0.0.1");
-            //    //turn this into a dictionary later
-            //    server = new TcpListener(localAddr, port);
-            //    server.Start();
-            //    //data buffer
-            //    Byte[] bytes = new Byte[256];
-            //    String data = null;
-            //    //listener loop
-            //    while (true)
-            //    {
-            //        Console.WriteLine("awaiting connection");
-            //        // Perform a blocking call to accept requests.
-            //        // You could also use server.AcceptSocket() here.
-            //        TcpClient client = server.AcceptTcpClient();
-            //        Console.WriteLine("Connected!");
-            //        data = null;
-            //        NetworkStream stream = client.GetStream();
-            //        int i;
-            //        while ((i = stream.Read(bytes, 0, bytes.Length)) != 0)
-            //        {
-            //            // Translate data bytes to a ASCII string.
-            //            data = System.Text.Encoding.ASCII.GetString(bytes, 0, i);
-            //            Console.WriteLine("Received: {0}", data);
-            //            // Process the data sent by the client.
-            //            data = data.ToUpper();
-            //            byte[] msg = System.Text.Encoding.ASCII.GetBytes(data);
-            //            // Send back a response.
-            //            stream.Write(msg, 0, msg.Length);
-            //            Console.WriteLine("Sent: {0}", data);
-            //        }
-            //        client.Close();
-            //    }
-            //}
-            //catch (SocketException ex)
-            //{
-            //    Console.WriteLine(ex);
-            //}
-            //finally
-            //{
-            //    server.Stop();
-            //}   
-            //}
-
+            Console.ReadLine();
+           
         }
 
     }

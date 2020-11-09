@@ -15,11 +15,11 @@ namespace A5_SERVER_PROG
     public class Server
     {
         //****************************************************************
-        string outMessage; //to be NULL when nothing happening, and if has something, send it
+        //string outMessage; //to be NULL when nothing happening, and if has something, send it
         public string inMessage;
 
         //keys for all our clients, to be referenced in A5_IPC_CLIENT
-        List<string> clientIDList = new List<string>();
+        List<TcpClient> clientIDList = new List<TcpClient>();
 
 
 
@@ -52,6 +52,11 @@ namespace A5_SERVER_PROG
                     // You could also user server.AcceptSocket() here.
                     //new client information, accepted here
                     TcpClient client = server.AcceptTcpClient();
+                    
+                    //add client to list
+                    clientIDList.Add(client);
+
+
                     Console.WriteLine("Connected!");
                     ParameterizedThreadStart ts = new ParameterizedThreadStart(Worker);
                     Thread clientThread = new Thread(ts);
@@ -63,11 +68,13 @@ namespace A5_SERVER_PROG
             catch (SocketException e)
             {
                 Console.WriteLine("SocketException: {0}", e);
+                Console.ReadLine();
             }
             finally
             {
                 // Stop listening for new clients.
                 server.Stop();
+                Console.ReadLine();
             }
 
 
@@ -87,8 +94,10 @@ namespace A5_SERVER_PROG
 
             // Get a stream object for reading and writing
             NetworkStream stream = client.GetStream();
-
+            
             int i;
+
+            
 
             // Loop to receive all the data sent by the client.
             while ((i = stream.Read(bytes, 0, bytes.Length)) != 0)
@@ -100,19 +109,41 @@ namespace A5_SERVER_PROG
                 // Process the data sent by the client.
                 // replace this to make new data from our protocols
                 // 
-                data = data.ToUpper();
-                this.inMessage = data;
+                //data = data.ToUpper();
 
-                byte[] msg = System.Text.Encoding.ASCII.GetBytes(data);
+                //Broadcast(data);
+
+               // byte[] msg = System.Text.Encoding.ASCII.GetBytes(data);
 
                 // Send back a response.
-                stream.Write(msg, 0, msg.Length);
+               // stream.Write(msg, 0, msg.Length);
 
-                Console.WriteLine("Sent: {0}", data);
+                
             }
 
             // Shutdown and end connection
             client.Close();
+        }
+
+        public void Broadcast(string message)
+        {
+            foreach (TcpClient clients in clientIDList)
+            {
+                NetworkStream clientStream = clients.GetStream();
+
+                string test = "Test Message";
+
+                byte[] msg = null;
+
+                msg = System.Text.Encoding.ASCII.GetBytes(test);
+
+                clientStream.Write(msg, 0, msg.Length);
+
+                Console.WriteLine("Sent: {0}", msg);
+
+                clientStream.Flush();
+
+            }
         }
     }
 }

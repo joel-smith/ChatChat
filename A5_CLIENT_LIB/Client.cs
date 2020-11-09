@@ -39,6 +39,7 @@ namespace A5_CLIENT_LIB
             // }
         }
 
+        
 
         //
         // The following code was extracted from the MSDN site:
