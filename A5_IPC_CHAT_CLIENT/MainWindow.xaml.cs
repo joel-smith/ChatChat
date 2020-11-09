@@ -120,7 +120,7 @@ namespace A5_IPC_CHAT_CLIENT
             int port = 13000;
 
             //add reference to textbox here
-            IPAddress clientIP = IPAddress.Parse("127.0.0.3");
+            IPAddress clientIP = IPAddress.Parse(Client_IP.Text);
 
             IPEndPoint ipLocalEndPoint = new IPEndPoint(clientIP, 13000);
 

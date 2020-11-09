@@ -316,6 +316,18 @@
                 Chat Client v1.0.0
             </TextBlock>
 
+            <TextBox Grid.Column="2"
+                     Grid.Row="2" 
+                     Name="Client_IP" 
+                     Text="Enter Client IP" 
+                     TextAlignment="Center"
+                     FontSize="14px"
+                     VerticalContentAlignment="Center"
+                     Background="White"
+                     Height="30"
+                     Style="{DynamicResource IPInputStyle}"  
+                     />
+            
             <!--Textbox for entering the server ip address-->
             <TextBox Grid.Column="3"
                      Grid.Row="2" 
