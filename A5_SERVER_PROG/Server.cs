@@ -1,12 +1,4 @@
-﻿/*
-*	NAME	      : Server.cs
-*	PROJECT		  : Assginemnt 5  PROG2121 
-*	PROGRAMMER	  : Joel Smith
-*	LAST VERSION  : 2020-11-09
-*	PURPOSE       : This file includes the functions for the server.
-*/
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -133,33 +125,32 @@ namespace A5_SERVER_PROG
             client.Close();
         }
 
-
-        /* -------------------------------------------------------------------------------------
-        *	Name	: Broadcast
-        *	Purpose : This function will send back the message recieved from clients to each clients.
-        *	Inputs	: string message : message
-        *	Returns	: None
-        *------------------------------------------------------------------------------------ */
         public void Broadcast(string message)
         {
             //foreach (TcpClient clients in clientIDList)
-            for (int i =0; i < clientIDList.Count; i++)
+            for (int i = 0; i < clientIDList.Count; i++)
             {
                 //NetworkStream clientStream = clients.GetStream();
+                try { 
+                    NetworkStream clientStream = clientIDList[i].GetStream();
+                    //string test = "Test Message";
 
-                NetworkStream clientStream = clientIDList[i].GetStream();
-                //string test = "Test Message";
+                    byte[] msg = null;
 
-                byte[] msg = null;
+                    msg = System.Text.Encoding.ASCII.GetBytes(message);
 
-                msg = System.Text.Encoding.ASCII.GetBytes(message);
+                    clientStream.Write(msg, 0, msg.Length);
 
-                clientStream.Write(msg, 0, msg.Length);
+                    Console.WriteLine("Sent: {0}", message);
 
-                Console.WriteLine("Sent: {0}", message);
-
-                clientStream.Flush();
-
+                    clientStream.Flush();
+                    }
+                    catch (ObjectDisposedException)
+                    {
+                        Console.WriteLine("Oops, that client is gone, deleting entry");
+                        clientIDList.RemoveRange(i, 1); //delete that entry
+                        Broadcast("SYSTEM: Offline User Removed from Broadcast"); //notify current users, that user has left
+                    }  
             }
         }
     }

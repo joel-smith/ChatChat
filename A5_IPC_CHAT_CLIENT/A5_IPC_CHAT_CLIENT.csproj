@@ -59,7 +59,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="ChatMainWindow.xaml">
+    <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -67,8 +67,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ChatMainWindow.xaml.cs">
-      <DependentUpon>ChatMainWindow.xaml</DependentUpon>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -99,10 +99,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\A5_CLIENT_LIB\A5_CLIENT_LIB.csproj">
-      <Project>{961f8881-ea44-49ca-b3ba-322cd2f0f4bb}</Project>
-      <Name>A5_CLIENT_LIB</Name>
-    </ProjectReference>
     <ProjectReference Include="..\A5_SERVER_PROG\A5_SERVER_PROG.csproj">
       <Project>{d3c02135-633a-4117-bb3f-dc267ad880ce}</Project>
       <Name>A5_SERVER_PROG</Name>
