@@ -131,7 +131,7 @@ namespace A5_SERVER_PROG
             for (int i =0; i < clientIDList.Count; i++)
             {
                 //NetworkStream clientStream = clients.GetStream();
-
+                try { 
                 NetworkStream clientStream = clientIDList[i].GetStream();
                 //string test = "Test Message";
 
@@ -144,7 +144,11 @@ namespace A5_SERVER_PROG
                 Console.WriteLine("Sent: {0}", message);
 
                 clientStream.Flush();
-
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.ToString());
+                }
             }
         }
     }

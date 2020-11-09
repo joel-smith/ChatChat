@@ -30,6 +30,7 @@ namespace A5_IPC_CHAT_CLIENT
        
         NetworkStream sendStream = null;
 
+        string sessionUser = "Yoel";
 
         public MainWindow()
         {
@@ -47,13 +48,24 @@ namespace A5_IPC_CHAT_CLIENT
             //add try and catch
             while (true)
             {
-               if (sendStream != null) 
-                { 
-                int bytes = sendStream.Read(buffer, 0, buffer.Length);
-                string message = Encoding.ASCII.GetString(buffer, 0, bytes);
+                if (sendStream != null)
+                {
+                    try
+                    { int bytes = sendStream.Read(buffer, 0, buffer.Length);
+                    string message = Encoding.ASCII.GetString(buffer, 0, bytes);
 
                     DisplayMessage(message);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.ToString());
+                    }
+                    finally
+                    {
+
+                    }
                 } 
+
             }
         }
 
@@ -65,10 +77,15 @@ namespace A5_IPC_CHAT_CLIENT
              }));
         }
 
-
+        /// <summary>
+        /// sends a message through the button and textbox
+        /// add username ahead maybe
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Send_Click(object sender, RoutedEventArgs e)
         {
-            string messageToSend = Input.Text;
+            string messageToSend = sessionUser + "\n" + Input.Text;
             Input.Text = String.Empty;
             
             NetworkStream sendStream = client.GetStream();
@@ -93,7 +110,6 @@ namespace A5_IPC_CHAT_CLIENT
             int port = 13000;
 
             //Client userClient = new Client();
-
  
             client.Connect(serverIP, port);
             
@@ -110,7 +126,6 @@ namespace A5_IPC_CHAT_CLIENT
 
             byte[] buffer = new byte[1024];
             int bytes = stream.Read(buffer, 0, buffer.Length);
-          
 
             string tmpString = Encoding.ASCII.GetString(buffer, 0, bytes);
 
@@ -119,7 +134,6 @@ namespace A5_IPC_CHAT_CLIENT
             Thread MessageGetter = new Thread(GetMessages);
             MessageGetter.IsBackground = true;
             MessageGetter.Start();
-
         }
 
         private void Window_Closing(object sender, CancelEventArgs e)
