@@ -149,6 +149,7 @@ namespace A5_SERVER_PROG
                     {
                         Console.WriteLine("Oops, that client is gone, deleting entry");
                         clientIDList.RemoveRange(i, 1); //delete that entry
+                        Broadcast("SYSTEM: Offline User Removed from Broadcast"); //notify current users, that user has left
                     }  
             }
         }

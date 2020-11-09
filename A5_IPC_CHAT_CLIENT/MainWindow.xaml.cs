@@ -17,6 +17,7 @@ using System.ComponentModel;
 using System.Net.Sockets;
 using System.Threading;
 using System.Windows.Threading;
+using System.Net;
 
 namespace A5_IPC_CHAT_CLIENT
 {
@@ -25,8 +26,8 @@ namespace A5_IPC_CHAT_CLIENT
     /// </summary>
     public partial class MainWindow : Window
     {
-
         TcpClient client = new TcpClient();
+       // TcpClient client = new TcpClient();
        
         NetworkStream sendStream = null;
 
@@ -97,19 +98,33 @@ namespace A5_IPC_CHAT_CLIENT
 
         }
 
-        //clears textbox
+        /// <summary>
+        /// clears user input textbox textbox
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Clear_Click(object sender, RoutedEventArgs e)
         {
             Input.Text = String.Empty;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ConnectButton_Click(object sender, RoutedEventArgs e)
         {
             string serverIP = IP_Field.Text;
 
             int port = 13000;
 
-            //Client userClient = new Client();
+            //add reference to textbox here
+            IPAddress clientIP = IPAddress.Parse("127.0.0.3");
+
+            IPEndPoint ipLocalEndPoint = new IPEndPoint(clientIP, 13000);
+
+            client = new TcpClient();
  
             client.Connect(serverIP, port);
             
