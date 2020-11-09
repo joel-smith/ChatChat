@@ -27,22 +27,22 @@ namespace A5_SERVER_PROG {
             // string serverAd = Dns.GetHostEntry(hostName).AddressList[0].ToString();
             // Console.WriteLine("My IP Address is :" + serverAd);
 
-            string hostname = System.Net.Dns.GetHostName();
-            Console.WriteLine("Computer name :" + hostname);
-            IPAddress[] addresses = Dns.GetHostAddresses(hostname);
-            Console.WriteLine($"GetHostAddresses({hostname}) returns:");
-            /*showing only the IPv4 address*/
-            foreach (IPAddress address in addresses)
-            {
-                Console.WriteLine(address);
+            //string hostname = System.Net.Dns.GetHostName();
+            //Console.WriteLine("Computer name :" + hostname);
+            //IPAddress[] addresses = Dns.GetHostAddresses(hostname);
+            //Console.WriteLine($"GetHostAddresses({hostname}) returns:");
+            ///*showing only the IPv4 address*/
+            //foreach (IPAddress address in addresses)
+            //{
+            //    Console.WriteLine(address);
 
-                if (address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
-                {
-                    Console.WriteLine(address);
+            //    if (address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+            //    {
+            //        Console.WriteLine(address);
 
 
-                }
-            }
+            //    }
+            //}
             Console.WriteLine("input server IP Address");
             string inputIP = Console.ReadLine();
 
