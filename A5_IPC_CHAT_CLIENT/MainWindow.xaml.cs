@@ -26,9 +26,12 @@ namespace A5_IPC_CHAT_CLIENT
     /// </summary>
     public partial class MainWindow : Window
     {
-       // BackgroundWorker listenerWorker;
+        BackgroundWorker listenerWorker;
+        string newMessage;
+
 
         TcpClient client = new TcpClient();
+       
         NetworkStream sendStream = null;
 
 
@@ -41,38 +44,49 @@ namespace A5_IPC_CHAT_CLIENT
             //}));
 
             //will need a background worker thread started here
-            //listenerWorker = new BackgroundWorker();
-            //listenerWorker.DoWork += new DoWorkEventHandler(listenerWorker_DoWork);
-            //listenerWorker.RunWorkerAsync();
-            //listenerWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(listenerWorker_RunWorkerCompleted);
+           // listenerWorker = new BackgroundWorker();
+           // listenerWorker.DoWork += new DoWorkEventHandler(listenerWorker_DoWork);
+           // //listenerWorker.RunWorkerAsync();
+           //// listenerWorker.ProgressChanged += listenerWorker_ProgressChanged;
+           // listenerWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(listenerWorker_RunWorkerCompleted);
         }
 
+
+        //to be put onto a thread
         private void GetMessages()
         {
+            sendStream = client.GetStream();
+            byte[] buffer = new byte[1024];
+
+
+            //add try and catch
             while (true)
             {
                if (sendStream != null) 
                 { 
-                
-                sendStream = client.GetStream();
-                byte[] buffer = new byte[1024];
                 int bytes = sendStream.Read(buffer, 0, buffer.Length);
                 string message = Encoding.ASCII.GetString(buffer, 0, bytes);
 
-                this.Dispatcher.BeginInvoke((Action)(() =>
-             {
-                 Output.AppendText(message + Environment.NewLine);
-             }));
-                
+                    DisplayMessage(message);
                 }
             }
         }
 
-        //private void ThreadProc()
-        //{          
+        void DisplayMessage(string message) 
+        { 
+             this.Dispatcher.BeginInvoke((Action)(() =>
+             {
+                 Output.AppendText(message + Environment.NewLine);
+             }));
+        }
+
+        ////to pull messages
+        //void listenerWorker_DoWork(object sender, DoWorkEventArgs e)
+        //{
+
         //    if (sendStream != null)
         //    {
-        //        NetworkStream sendStream = client.GetStream();
+        //       NetworkStream sendStream = client.GetStream();
         //        int i;
         //    byte[] buffer = new byte[1024];
         //        int bytes = sendStream.Read(buffer, 0, buffer.Length);
@@ -82,28 +96,37 @@ namespace A5_IPC_CHAT_CLIENT
         //        {
         //            // Translate data bytes to a ASCII string.
         //            string data = System.Text.Encoding.ASCII.GetString(buffer, 0, i);
-        //            Console.WriteLine("Received: {0}", data);
-        //            Output.AppendText(data + Environment.NewLine);
+        //            //Console.WriteLine("Received: {0}", data);
+
+        //            newMessage = data;
+
         //        }
         //        //this.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (ThreadStart)delegate () { Output.AppendText(tmpString + Environment.NewLine); });
         //        //Thread.Sleep(TimeSpan.FromSeconds(1));
         //    }
+
+
+        //        //server listening stuff here
+        //        //to be used for getting messages
+        //        //Server receiveServer = new Server();
+        //        // receiveServer.DoServer("127.0.0.1", 13000);
+        //        // this.Dispatcher
+        //        // Output.AppendText(receiveServer.inMessage); //put the message on new line
         //}
-        ////to pull messages
-        //void listenerWorker_DoWork(object sender, DoWorkEventArgs e)
-        //{
-        //    //server listening stuff here
-        //    //to be used for getting messages
-        //    //Server receiveServer = new Server();
-        //   // receiveServer.DoServer("127.0.0.1", 13000);
-        //   // this.Dispatcher
-        //   // Output.AppendText(receiveServer.inMessage); //put the message on new line
-        //}
+
+        ////void listenerWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        ////{
+
+        ////}
+
         //void listenerWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         //{
-        //    //
+        //    Output.AppendText(newMessage + Environment.NewLine);
         //}
-        //sends contents of textbox somewhere
+
+
+
+
         private void Send_Click(object sender, RoutedEventArgs e)
         {
             string messageToSend = Input.Text;
@@ -163,6 +186,9 @@ namespace A5_IPC_CHAT_CLIENT
 
             Output.AppendText(tmpString + Environment.NewLine);
 
+            Thread MessageGetter = new Thread(GetMessages);
+            MessageGetter.IsBackground = true;
+            MessageGetter.Start();
 
         }
 

@@ -127,10 +127,12 @@ namespace A5_SERVER_PROG
 
         public void Broadcast(string message)
         {
-            foreach (TcpClient clients in clientIDList)
+            //foreach (TcpClient clients in clientIDList)
+            for (int i =0; i < clientIDList.Count; i++)
             {
-                NetworkStream clientStream = clients.GetStream();
+                //NetworkStream clientStream = clients.GetStream();
 
+                NetworkStream clientStream = clientIDList[i].GetStream();
                 //string test = "Test Message";
 
                 byte[] msg = null;
