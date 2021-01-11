@@ -99,9 +99,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\A5_SERVER_PROG\A5_SERVER_PROG.csproj">
+    <ProjectReference Include="..\A5_SERVER_PROG\ChatChat_Server.csproj">
       <Project>{d3c02135-633a-4117-bb3f-dc267ad880ce}</Project>
-      <Name>A5_SERVER_PROG</Name>
+      <Name>ChatChat_Server</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

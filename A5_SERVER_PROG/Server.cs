@@ -1,12 +1,9 @@
-﻿/*
-*	NAME	      : Server.cs
-*	PROJECT		  : Assginemnt 5  PROG2121 
-*	PROGRAMMER	  : Joel Smith
-*	                Luka Horiuchi
-*	LAST VERSION  : 2020-11-09
-*	PURPOSE       : This file includes the functions for the server to start, listen for connection,
-*	                recieve/send messages out to client.
-*/
+﻿//    FILE                   : Server.cs
+//    PROJECT                : ChatChat v1.1 
+//    PROGRAMMER             : Joel Smith
+//                             Luka Horiuchi
+//    LAST VERSION           : 2020 - 11 - 09
+//    DESCRIPTION: contains logic for chat server
 
 using System;
 using System.Collections.Generic;

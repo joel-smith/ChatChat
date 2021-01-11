@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30621.155
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "A5_IPC_CHAT_CLIENT", "A5_IPC_CHAT_CLIENT\A5_IPC_CHAT_CLIENT.csproj", "{BF635CED-1CF5-4134-8C6E-AE9F4FC1499D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatChat_Client", "A5_IPC_CHAT_CLIENT\ChatChat_Client.csproj", "{BF635CED-1CF5-4134-8C6E-AE9F4FC1499D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "A5_SERVER_PROG", "A5_SERVER_PROG\A5_SERVER_PROG.csproj", "{D3C02135-633A-4117-BB3F-DC267AD880CE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatChat_Server", "A5_SERVER_PROG\ChatChat_Server.csproj", "{D3C02135-633A-4117-BB3F-DC267AD880CE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,6 +1,6 @@
 ﻿<!--
     FILE                   : ChatMainWindow.xaml
-    PROJECT                : Assginment 5  PROG2121 
+    PROJECT                : ChatChat v1.1 
     PROGRAMMER             : Joel Smith
                              Luka Horiuchi
     LAST VERSION           : 2020-11-09
@@ -240,9 +240,7 @@
                        FontFamily="Helevetica"
                        FontSize="26pt" 
                        FontWeight="Bold"
-                       TextAlignment="Left">
-                Chat Client v1.0.0
-            </TextBlock>
+                       TextAlignment="Left"><Run Text="C"/><Run Text="hatChat"/><Run Text=" v1."/><Run Text="1"/></TextBlock>
 
             <!--TextBlock for username textbox-->
             <TextBlock Grid.Column="1"
